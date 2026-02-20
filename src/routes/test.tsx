@@ -3,11 +3,10 @@ import { createFileRoute } from "@tanstack/react-router";
 export const Route = createFileRoute("/test")({
   component: RouteComponent,
   loader: async () => {
-    const res = await fetch("https://dummyjson.com/quotes");
+    const ranNum = Math.floor((Math.random() + 1) * 25);
+    const res = await fetch(`https://dummyjson.com/quotes/${ranNum}`);
     const data = await res.json();
-    const randomQuote =
-      data.quotes[Math.floor(Math.random() * data.quotes.length)];
-    return randomQuote;
+    return data;
   },
 });
 
