@@ -8,6 +8,7 @@ export const Route = createFileRoute("/test")({
     const data = await res.json();
     return data;
   },
+  staleTime: 10_000,
 });
 
 function RouteComponent() {
