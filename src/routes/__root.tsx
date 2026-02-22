@@ -40,9 +40,10 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <HeadContent />
       </head>
       <body className="bg-black text-white">
-        <div>
+        <div className="py-4 space-x-4">
           <Link to="/">Home</Link>
           <Link to="/test">Test</Link>
+          <Link to="/blogs">Blogs</Link>
         </div>
         {children}
         <TanStackDevtools
