@@ -14,10 +14,9 @@ function RouteComponent() {
     <center>
       <h1 className="text-lg">Hello "/blogs"!</h1>
       <ul>
-        {/* {blogs.map((blog) => {
+        {blogs.map((blog) => {
           return <li key={blog.id}>{blog.title}</li>;
-        })} */}
-        <p>{blogs}</p>
+        })}
       </ul>
     </center>
   );
