@@ -7,7 +7,7 @@ export function getRouter() {
 
     scrollRestoration: true,
     defaultPreload: "intent",
-    defaultPreloadStaleTime: 0,
+    defaultPreloadStaleTime: 10_000,
     defaultNotFoundComponent: () => <div>Not found</div>,
   });
 
