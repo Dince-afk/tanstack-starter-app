@@ -4,7 +4,7 @@ import postgres from "postgres";
 const sql = postgres(process.env.DATABASE_URL!);
 
 export const getBlogs = createServerFn({ method: "GET" }).handler(async () => {
-  console.log("Fetching blogs");
+  console.log("Fetching blogs", new Date().toLocaleString());
   const data = await sql`SELECT * FROM blogs`;
   return data;
 });

@@ -42,14 +42,11 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       <body className="bg-black text-white">
         <div className="py-4 space-x-4">
           <Link to="/">Home</Link>
-          <Link to="/test">Test</Link>
+          <Link to="/quote">Quote</Link>
           <Link to="/blogs">Blogs</Link>
         </div>
         {children}
         <TanStackDevtools
-          config={{
-            position: "bottom-right",
-          }}
           plugins={[
             {
               name: "Tanstack Router",
