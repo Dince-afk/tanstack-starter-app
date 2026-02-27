@@ -20,7 +20,7 @@ export const Route = createRootRoute({
         content: "width=device-width, initial-scale=1",
       },
       {
-        title: "TanStack Start Starter",
+        title: "TanStack Start",
       },
     ],
     links: [
@@ -31,6 +31,7 @@ export const Route = createRootRoute({
     ],
   }),
   shellComponent: RootDocument,
+  errorComponent: ({ error }) => <div>{error.message}</div>,
 });
 
 function RootDocument({ children }: { children: React.ReactNode }) {
@@ -44,6 +45,8 @@ function RootDocument({ children }: { children: React.ReactNode }) {
           <Link to="/">Home</Link>
           <Link to="/quote">Quote</Link>
           <Link to="/blogs">Blogs</Link>
+          <Link to="/todos">Todos</Link>
+          <Link to="/about">About</Link>
         </div>
         {children}
         <TanStackDevtools
