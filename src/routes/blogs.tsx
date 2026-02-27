@@ -13,7 +13,7 @@ function RouteComponent() {
   const blogs = Route.useLoaderData();
   return (
     <center>
-      <h1 className="text-lg">Hello "/blogs"!</h1>
+      <h1 className="text-lg">Blog</h1>
       <ul>
         {blogs.map((blog) => {
           return <li key={blog.id}>{blog.title}</li>;

@@ -3,11 +3,20 @@ import {
   Link,
   Scripts,
   createRootRoute,
+  linkOptions,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 import { TanStackDevtools } from "@tanstack/react-devtools";
 
 import appCss from "../styles.css?url";
+
+const options = linkOptions([
+  { label: "Home", to: "/" },
+  { label: "About", to: "/about" },
+  { label: "Todos", to: "/todos" },
+  { label: "Quote", to: "/quote" },
+  { label: "Blog", to: "/blogs" },
+]);
 
 export const Route = createRootRoute({
   head: () => ({
@@ -36,17 +45,25 @@ export const Route = createRootRoute({
 
 function RootDocument({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
         <HeadContent />
       </head>
-      <body className="bg-black text-white">
-        <div className="py-4 space-x-4">
-          <Link to="/">Home</Link>
-          <Link to="/quote">Quote</Link>
-          <Link to="/blogs">Blogs</Link>
-          <Link to="/todos">Todos</Link>
-          <Link to="/about">About</Link>
+      <body>
+        <div className="p-4 space-x-4">
+          {options.map((option) => {
+            return (
+              <Link
+                {...option}
+                to={option.to}
+                key={option.to}
+                className="hover:underline"
+                activeProps={{ className: "underline" }}
+              >
+                {option.label}
+              </Link>
+            );
+          })}
         </div>
         {children}
         <TanStackDevtools
