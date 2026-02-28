@@ -19,7 +19,7 @@ function RouteComponent() {
     <center className="py-10">
       <h1 className="text-lg font-semibold pb-4">Quote</h1>
       <p className="max-w-prose">{randomQuote.quote}</p>
-      <p className="italic">{randomQuote.author}</p>
+      <p className="italic font-extralight py-2">{randomQuote.author}</p>
     </center>
   );
 }
