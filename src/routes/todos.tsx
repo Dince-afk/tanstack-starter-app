@@ -12,7 +12,6 @@ const deleteStoredTodos = createClientOnlyFn(() => {
 });
 
 const getStoredTodos = createClientOnlyFn(() => {
-  console.log({ getStoredTodos });
   const rawTodosStr = localStorage.getItem("todos");
   if (rawTodosStr) {
     const todos = JSON.parse(rawTodosStr);
@@ -98,15 +97,26 @@ function RouteComponent() {
         {todos.map((todo) => {
           return (
             <li key={todo.id} className="italic">
-              <span> - </span>
               <span>{todo.title}</span>
+              <button
+                className="ml-4 cursor-pointer opacity-0 hover:opacity-100"
+                onClick={() => {
+                  const newTodos = todos.filter((value) => {
+                    return value.id !== todo.id;
+                  });
+                  setTodos(newTodos);
+                  storeTodos(newTodos);
+                }}
+              >
+                {" x "}
+              </button>
             </li>
           );
         })}
       </ul>
       {todos.length > 0 && (
         <button
-          className="hover:underline py-8 cursor-pointer"
+          className="hover:underline my-8 cursor-pointer"
           onClick={() => {
             deleteStoredTodos();
             setTodos([]);
