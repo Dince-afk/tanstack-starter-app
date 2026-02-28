@@ -16,6 +16,7 @@ const options = linkOptions([
   { label: "Todos", to: "/todos" },
   { label: "Quote", to: "/quote" },
   { label: "Blog", to: "/blogs" },
+  { label: "Error", to: "/error" },
 ]);
 
 export const Route = createRootRoute({
@@ -40,7 +41,6 @@ export const Route = createRootRoute({
     ],
   }),
   shellComponent: RootDocument,
-  errorComponent: ({ error }) => <div>{error.message}</div>,
 });
 
 function RootDocument({ children }: { children: React.ReactNode }) {

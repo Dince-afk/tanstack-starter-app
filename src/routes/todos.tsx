@@ -1,21 +1,27 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { createClientOnlyFn } from "@tanstack/react-start";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 type Todo = {
+  id: string;
   title: string;
 };
 
-const getTodos = createClientOnlyFn(() => {
+const deleteStoredTodos = createClientOnlyFn(() => {
+  localStorage.removeItem("todos");
+});
+
+const getStoredTodos = createClientOnlyFn(() => {
+  console.log({ getStoredTodos });
   const rawTodosStr = localStorage.getItem("todos");
   if (rawTodosStr) {
     const todos = JSON.parse(rawTodosStr);
     return todos;
   }
-  localStorage.setItem(
-    "todos",
-    JSON.stringify([{ title: "Go shopping", id: crypto.randomUUID() }]),
-  );
+});
+
+const storeTodos = createClientOnlyFn((todos: Array<Todo>) => {
+  localStorage.setItem("todos", JSON.stringify(todos));
 });
 
 const createTodo = createClientOnlyFn((title) => {
@@ -35,7 +41,7 @@ const createTodo = createClientOnlyFn((title) => {
 export const Route = createFileRoute("/todos")({
   component: RouteComponent,
   loader: () => {
-    return getTodos();
+    return getStoredTodos();
   },
   ssr: false,
 });
@@ -47,40 +53,68 @@ function RouteComponent() {
   );
   const [todo, setTodo] = useState("");
 
-  useEffect(() => {
-    setTodos(getTodos());
-  }, []);
-  //   const todos = Route.useLoaderData();
+  // useEffect(() => {
+  //   storeTodos(todos);
+  // }, [todos]);
 
   return (
     <center>
-      <h1>List of todos</h1>
+      <h1 className="text-xl font-semibold pb-8">List of Todos</h1>
       {/* <p>Select a todo</p> */}
-      <div>
-        <input
-          type="text"
-          name="title"
-          id="title"
-          value={todo}
-          onChange={(e) => setTodo(e.currentTarget.value)}
-        />
+      <div className="space-x-4 p-8">
         <button
+          className="hover:underline cursor-pointer"
           onClick={() => {
+            if (!todo) return;
             createTodo(todo);
             setTodo("");
             setTodos(() => {
-              return getTodos();
+              return getStoredTodos();
             });
           }}
         >
           Add
         </button>
+        <input
+          type="text"
+          name="title"
+          id="title"
+          className="border rounded-sm border-gray-400"
+          value={todo}
+          onChange={(e) => setTodo(e.currentTarget.value)}
+          onKeyDown={(e) => {
+            if (!todo) return;
+            if (e.key === "Enter") {
+              createTodo(todo);
+              setTodo("");
+              setTodos(() => {
+                return getStoredTodos();
+              });
+            }
+          }}
+        />
       </div>
       <ul>
         {todos.map((todo) => {
-          return <li key={todo.id}>{todo.title}</li>;
+          return (
+            <li key={todo.id} className="italic">
+              <span> - </span>
+              <span>{todo.title}</span>
+            </li>
+          );
         })}
       </ul>
+      {todos.length > 0 && (
+        <button
+          className="hover:underline py-8 cursor-pointer"
+          onClick={() => {
+            deleteStoredTodos();
+            setTodos([]);
+          }}
+        >
+          Delete all todos
+        </button>
+      )}
     </center>
   );
 }
