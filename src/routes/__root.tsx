@@ -5,7 +5,7 @@ import {
   createRootRoute,
   linkOptions,
 } from "@tanstack/react-router";
-import { TanStackRouterDevtoolsPanelInProd } from "@tanstack/react-router-devtools";
+import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 import { TanStackDevtools } from "@tanstack/react-devtools";
 
 import appCss from "../styles.css?url";
@@ -70,7 +70,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
           plugins={[
             {
               name: "Tanstack Router",
-              render: <TanStackRouterDevtoolsPanelInProd />,
+              render: <TanStackRouterDevtoolsPanel />,
             },
           ]}
         />
