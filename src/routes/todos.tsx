@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useRouter } from "@tanstack/react-router";
 import { createClientOnlyFn } from "@tanstack/react-start";
 import { useState } from "react";
 
@@ -6,22 +6,6 @@ type Todo = {
   id: string;
   title: string;
 };
-
-const deleteStoredTodos = createClientOnlyFn(() => {
-  localStorage.removeItem("todos");
-});
-
-const getStoredTodos = createClientOnlyFn(() => {
-  const rawTodosStr = localStorage.getItem("todos");
-  if (rawTodosStr) {
-    const todos = JSON.parse(rawTodosStr);
-    return todos;
-  }
-});
-
-const storeTodos = createClientOnlyFn((todos: Array<Todo>) => {
-  localStorage.setItem("todos", JSON.stringify(todos));
-});
 
 const createTodo = createClientOnlyFn((title) => {
   const rawTodosStr = localStorage.getItem("todos");
@@ -37,6 +21,45 @@ const createTodo = createClientOnlyFn((title) => {
   localStorage.setItem("todos", JSON.stringify(todos));
 });
 
+const getStoredTodos = createClientOnlyFn((): Array<Todo> => {
+  const rawTodosStr = localStorage.getItem("todos");
+  if (rawTodosStr) {
+    const todos = JSON.parse(rawTodosStr);
+    return todos;
+  } else {
+    return [];
+  }
+});
+
+const updateTodo = createClientOnlyFn((newTitle: string, id: string) => {
+  const rawTodosStr = localStorage.getItem("todos");
+  if (!rawTodosStr) return;
+
+  const todos = JSON.parse(rawTodosStr) as Array<Todo>;
+  const updatedTodos = todos.map((todo) => {
+    if (todo.id === id) {
+      return { ...todo, title: newTitle };
+    } else {
+      return todo;
+    }
+  });
+
+  localStorage.setItem("todos", JSON.stringify(updatedTodos));
+});
+
+const deleteTodo = createClientOnlyFn((id: string) => {
+  const rawTodosStr = localStorage.getItem("todos");
+  if (!rawTodosStr) return;
+
+  const todos = JSON.parse(rawTodosStr) as Array<Todo>;
+  const updatedTodos = todos.filter((todo) => todo.id !== id);
+  localStorage.setItem("todos", JSON.stringify(updatedTodos));
+});
+
+const deleteStoredTodos = createClientOnlyFn(() => {
+  localStorage.removeItem("todos");
+});
+
 export const Route = createFileRoute("/todos")({
   component: RouteComponent,
   loader: () => {
@@ -46,15 +69,9 @@ export const Route = createFileRoute("/todos")({
 });
 
 function RouteComponent() {
-  const loaderData = Route.useLoaderData();
-  const [todos, setTodos] = useState(
-    Array.isArray(loaderData) ? loaderData : [],
-  );
+  var todos = Route.useLoaderData();
+  const router = useRouter();
   const [todo, setTodo] = useState("");
-
-  // useEffect(() => {
-  //   storeTodos(todos);
-  // }, [todos]);
 
   return (
     <center>
@@ -67,9 +84,7 @@ function RouteComponent() {
             if (!todo) return;
             createTodo(todo);
             setTodo("");
-            setTodos(() => {
-              return getStoredTodos();
-            });
+            router.invalidate();
           }}
         >
           Add
@@ -83,34 +98,22 @@ function RouteComponent() {
           onChange={(e) => setTodo(e.currentTarget.value)}
           onKeyDown={(e) => {
             if (!todo) return;
-            if (e.key === "Enter") {
-              createTodo(todo);
-              setTodo("");
-              setTodos(() => {
-                return getStoredTodos();
-              });
-            }
+            if (e.key !== "Enter") return;
+            createTodo(todo);
+            setTodo("");
+            router.invalidate();
           }}
         />
       </div>
       <ul>
         {todos.map((todo) => {
           return (
-            <li key={todo.id} className="italic">
-              <span>{todo.title}</span>
-              <button
-                className="ml-4 cursor-pointer opacity-0 hover:opacity-100"
-                onClick={() => {
-                  const newTodos = todos.filter((value) => {
-                    return value.id !== todo.id;
-                  });
-                  setTodos(newTodos);
-                  storeTodos(newTodos);
-                }}
-              >
-                {" x "}
-              </button>
-            </li>
+            <TodoItem
+              todo={todo}
+              handleUpdateTodo={updateTodo}
+              handleDeleteTodo={deleteTodo}
+              key={todo.id}
+            />
           );
         })}
       </ul>
@@ -119,12 +122,54 @@ function RouteComponent() {
           className="hover:underline my-8 cursor-pointer"
           onClick={() => {
             deleteStoredTodos();
-            setTodos([]);
+            // setTodos([]);
+            router.invalidate();
           }}
         >
           Delete all todos
         </button>
       )}
     </center>
+  );
+}
+
+function TodoItem({
+  todo,
+  handleUpdateTodo,
+  handleDeleteTodo,
+}: {
+  todo: Todo;
+  handleUpdateTodo: (newTitle: string, id: string) => void;
+  handleDeleteTodo: (id: string) => void;
+}) {
+  const [todoTitle, setTodoTitle] = useState(todo.title);
+  // const [isChanged, setIsChanged] = useState(false);
+
+  const router = useRouter();
+
+  // if (todoTitle !== todo.title) setIsChanged(true);
+
+  return (
+    <li className="p-2">
+      <input value={todoTitle} onChange={(e) => setTodoTitle(e.target.value)} />
+      <button
+        onClick={() => {
+          handleUpdateTodo(todoTitle, todo.id);
+          router.invalidate();
+        }}
+        className="hover:underline cursor-pointer"
+      >
+        Save
+      </button>
+      <button
+        className="ml-4 cursor-pointer"
+        onClick={() => {
+          handleDeleteTodo(todo.id);
+          router.invalidate();
+        }}
+      >
+        {" x "}
+      </button>
+    </li>
   );
 }
