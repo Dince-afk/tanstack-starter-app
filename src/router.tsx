@@ -11,6 +11,7 @@ export function getRouter() {
     defaultPreload: "intent",
     defaultPreloadStaleTime: 30_000,
     defaultStaleTime: 0,
+    defaultGcTime: 1_800_000,
     defaultErrorComponent: DefaultError,
     defaultNotFoundComponent: DefaultNotFound,
   });

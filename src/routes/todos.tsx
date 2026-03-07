@@ -15,7 +15,7 @@ export const Route = createFileRoute("/todos")({
   component: RouteComponent,
   loader: async () => {
     console.log("Running todos loader function");
-    await delay(3000);
+    // await delay(2000);
     return getStoredTodos();
   },
   ssr: false,

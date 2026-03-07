@@ -9,8 +9,7 @@ export const Route = createFileRoute("/quote")({
     const data = await res.json();
     return data;
   },
-  // preloadStaleTime: 15_000,
-  staleTime: 10_000,
+  staleTime: 1_000,
 });
 
 function RouteComponent() {
