@@ -1,4 +1,5 @@
 import {
+  ClientOnly,
   HeadContent,
   Link,
   Scripts,
@@ -69,18 +70,20 @@ function RootDocument({ children }: { children: React.ReactNode }) {
           })}
         </div>
         {children}
-        <TanStackDevtools
-          plugins={[
-            {
-              name: "Tanstack Router",
-              render: isDev ? (
-                <TanStackRouterDevtoolsPanel />
-              ) : (
-                <TanStackRouterDevtoolsInProd />
-              ),
-            },
-          ]}
-        />
+        <ClientOnly>
+          <TanStackDevtools
+            plugins={[
+              {
+                name: "Tanstack Router",
+                render: isDev ? (
+                  <TanStackRouterDevtoolsPanel />
+                ) : (
+                  <TanStackRouterDevtoolsInProd />
+                ),
+              },
+            ]}
+          />
+        </ClientOnly>
         <Scripts />
       </body>
     </html>

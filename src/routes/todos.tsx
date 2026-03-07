@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { createFileRoute, useRouter } from "@tanstack/react-router";
 
 import { TodoItem } from "@/features/todos/todo-item";
@@ -9,7 +9,7 @@ import {
   getStoredTodos,
   updateTodo,
 } from "@/features/todos/storage";
-import { delay } from "@/lib/helper";
+import { delay, renderTime } from "@/lib/helper";
 
 export const Route = createFileRoute("/todos")({
   component: RouteComponent,
@@ -31,7 +31,7 @@ function RouteComponent() {
 
   return (
     <center>
-      <p>{new Date().toLocaleTimeString()}</p>
+      <p>{renderTime()}</p>
       <h1 className="text-xl font-semibold pb-8">List of Todos</h1>
       {/* <p>Select a todo</p> */}
       <div className="space-x-4 p-8">
