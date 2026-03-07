@@ -10,7 +10,7 @@ import tailwindcss from "@tailwindcss/vite";
 
 const config = defineConfig({
   plugins: [
-    devtools({ removeDevtoolsOnBuild: false }),
+    devtools(),
     tsconfigPaths({ projects: ["./tsconfig.json"] }),
     tailwindcss(),
     tanstackStart(),

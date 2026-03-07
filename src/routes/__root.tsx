@@ -6,9 +6,12 @@ import {
   linkOptions,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
+import { TanStackRouterDevtoolsInProd } from "@tanstack/react-router-devtools";
 import { TanStackDevtools } from "@tanstack/react-devtools";
-
 import appCss from "../styles.css?url";
+import { checkIfDevEnv } from "@/lib/helper";
+
+const isDev = checkIfDevEnv();
 
 const options = linkOptions([
   { label: "Home", to: "/" },
@@ -70,7 +73,11 @@ function RootDocument({ children }: { children: React.ReactNode }) {
           plugins={[
             {
               name: "Tanstack Router",
-              render: <TanStackRouterDevtoolsPanel />,
+              render: isDev ? (
+                <TanStackRouterDevtoolsPanel />
+              ) : (
+                <TanStackRouterDevtoolsInProd />
+              ),
             },
           ]}
         />

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { createFileRoute, useRouter } from "@tanstack/react-router";
 
 import { TodoItem } from "@/features/todos/todo-item";
@@ -21,7 +21,7 @@ export const Route = createFileRoute("/todos")({
   ssr: false,
   pendingComponent: () => <p>Loading...</p>,
   staleTime: 0,
-  preload: false,
+  preloadStaleTime: 30_000,
 });
 
 function RouteComponent() {
