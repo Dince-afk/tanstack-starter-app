@@ -1,6 +1,5 @@
 import { createClientOnlyFn } from "@tanstack/react-start";
 import type { Todo } from "./types";
-import { delay } from "@/lib/helper";
 
 export const createTodo = createClientOnlyFn((title: string) => {
   const rawTodosStr = localStorage.getItem("todos");
@@ -16,18 +15,15 @@ export const createTodo = createClientOnlyFn((title: string) => {
   localStorage.setItem("todos", JSON.stringify(todos));
 });
 
-export const getStoredTodos = createClientOnlyFn(
-  async (): Promise<Array<Todo>> => {
-    await delay(5000);
-    const rawTodosStr = localStorage.getItem("todos");
-    if (rawTodosStr) {
-      const todos = JSON.parse(rawTodosStr);
-      return todos;
-    } else {
-      return [];
-    }
-  },
-);
+export const getStoredTodos = createClientOnlyFn((): Array<Todo> => {
+  const rawTodosStr = localStorage.getItem("todos");
+  if (rawTodosStr) {
+    const todos = JSON.parse(rawTodosStr);
+    return todos;
+  } else {
+    return [];
+  }
+});
 
 export const updateTodo = createClientOnlyFn((newTitle: string, id: string) => {
   const rawTodosStr = localStorage.getItem("todos");
