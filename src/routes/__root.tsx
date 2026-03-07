@@ -7,12 +7,12 @@ import {
   linkOptions,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
-// import { TanStackRouterDevtoolsInProd } from "@tanstack/react-router-devtools";
+import { TanStackRouterDevtoolsInProd } from "@tanstack/react-router-devtools";
 import { TanStackDevtools } from "@tanstack/react-devtools";
 import appCss from "../styles.css?url";
-// import { checkIfDevEnv } from "@/lib/helper";
+import { checkIfDevEnv } from "@/lib/helper";
 
-// const isDev = checkIfDevEnv();
+const isDev = checkIfDevEnv();
 
 const options = linkOptions([
   { label: "Home", to: "/" },
@@ -71,14 +71,18 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         </div>
         {children}
         <ClientOnly>
-          <TanStackDevtools
-            plugins={[
-              {
-                name: "Tanstack Router",
-                render: <TanStackRouterDevtoolsPanel />,
-              },
-            ]}
-          />
+          {isDev ? (
+            <TanStackDevtools
+              plugins={[
+                {
+                  name: "Tanstack Router",
+                  render: <TanStackRouterDevtoolsPanel />,
+                },
+              ]}
+            />
+          ) : (
+            <TanStackRouterDevtoolsInProd />
+          )}
         </ClientOnly>
         <Scripts />
       </body>
