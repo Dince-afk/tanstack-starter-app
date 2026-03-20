@@ -6,10 +6,9 @@ import DefaultNotFound from "./components/default-not-found";
 export function getRouter() {
   const router = createTanStackRouter({
     routeTree,
-
     scrollRestoration: true,
-    defaultPreload: "intent",
-    defaultPreloadStaleTime: 30_000,
+    // defaultPreload: "intent",
+    // defaultPreloadStaleTime: 30_000,
     defaultStaleTime: 0,
     defaultGcTime: 1_800_000,
     defaultErrorComponent: DefaultError,

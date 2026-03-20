@@ -10,3 +10,8 @@ export const renderTime = () =>
     second: "2-digit",
     fractionalSecondDigits: 3,
   });
+
+export function RenderTimeStamp() {
+  const time = renderTime();
+  return <p>{time}</p>;
+}

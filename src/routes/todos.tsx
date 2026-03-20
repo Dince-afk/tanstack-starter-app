@@ -9,7 +9,7 @@ import {
   getStoredTodos,
   updateTodo,
 } from "@/features/todos/storage";
-import { delay, renderTime } from "@/lib/helper";
+import { delay, RenderTimeStamp } from "@/lib/helper";
 
 export const Route = createFileRoute("/todos")({
   component: RouteComponent,
@@ -31,7 +31,7 @@ function RouteComponent() {
 
   return (
     <center>
-      <p>{renderTime()}</p>
+      <RenderTimeStamp />
       <h1 className="text-xl font-semibold pb-8">List of Todos</h1>
       {/* <p>Select a todo</p> */}
       <div className="space-x-4 p-8">

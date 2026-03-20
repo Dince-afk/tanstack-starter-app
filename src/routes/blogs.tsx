@@ -1,4 +1,5 @@
 import { getBlogs } from "@/features/blogs/db";
+import { RenderTimeStamp } from "@/lib/helper";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/blogs")({
@@ -14,6 +15,7 @@ function RouteComponent() {
   const blogs = Route.useLoaderData();
   return (
     <center>
+      <RenderTimeStamp />
       <h1 className="text-lg">Blog</h1>
       <ul>
         {blogs.map((blog) => {
