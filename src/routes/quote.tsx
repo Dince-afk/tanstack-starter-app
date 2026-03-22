@@ -11,8 +11,6 @@ export const Route = createFileRoute("/quote")({
       await res.json();
     return quote;
   },
-  preloadStaleTime: 30_000,
-  staleTime: 0,
 });
 
 function RouteComponent() {
