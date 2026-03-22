@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TodosRouteImport } from './routes/todos'
 import { Route as QuoteRouteImport } from './routes/quote'
+import { Route as FinanceRouteImport } from './routes/finance'
 import { Route as ErrorRouteImport } from './routes/error'
 import { Route as BlogsRouteImport } from './routes/blogs'
 import { Route as AboutRouteImport } from './routes/about'
@@ -24,6 +25,11 @@ const TodosRoute = TodosRouteImport.update({
 const QuoteRoute = QuoteRouteImport.update({
   id: '/quote',
   path: '/quote',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FinanceRoute = FinanceRouteImport.update({
+  id: '/finance',
+  path: '/finance',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ErrorRoute = ErrorRouteImport.update({
@@ -52,6 +58,7 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/blogs': typeof BlogsRoute
   '/error': typeof ErrorRoute
+  '/finance': typeof FinanceRoute
   '/quote': typeof QuoteRoute
   '/todos': typeof TodosRoute
 }
@@ -60,6 +67,7 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/blogs': typeof BlogsRoute
   '/error': typeof ErrorRoute
+  '/finance': typeof FinanceRoute
   '/quote': typeof QuoteRoute
   '/todos': typeof TodosRoute
 }
@@ -69,15 +77,31 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/blogs': typeof BlogsRoute
   '/error': typeof ErrorRoute
+  '/finance': typeof FinanceRoute
   '/quote': typeof QuoteRoute
   '/todos': typeof TodosRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/blogs' | '/error' | '/quote' | '/todos'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/blogs'
+    | '/error'
+    | '/finance'
+    | '/quote'
+    | '/todos'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/blogs' | '/error' | '/quote' | '/todos'
-  id: '__root__' | '/' | '/about' | '/blogs' | '/error' | '/quote' | '/todos'
+  to: '/' | '/about' | '/blogs' | '/error' | '/finance' | '/quote' | '/todos'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/blogs'
+    | '/error'
+    | '/finance'
+    | '/quote'
+    | '/todos'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -85,6 +109,7 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   BlogsRoute: typeof BlogsRoute
   ErrorRoute: typeof ErrorRoute
+  FinanceRoute: typeof FinanceRoute
   QuoteRoute: typeof QuoteRoute
   TodosRoute: typeof TodosRoute
 }
@@ -103,6 +128,13 @@ declare module '@tanstack/react-router' {
       path: '/quote'
       fullPath: '/quote'
       preLoaderRoute: typeof QuoteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/finance': {
+      id: '/finance'
+      path: '/finance'
+      fullPath: '/finance'
+      preLoaderRoute: typeof FinanceRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/error': {
@@ -141,6 +173,7 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   BlogsRoute: BlogsRoute,
   ErrorRoute: ErrorRoute,
+  FinanceRoute: FinanceRoute,
   QuoteRoute: QuoteRoute,
   TodosRoute: TodosRoute,
 }

@@ -21,6 +21,7 @@ const options = linkOptions([
   { label: "Quote", to: "/quote" },
   { label: "Blog", to: "/blogs" },
   { label: "Error", to: "/error" },
+  { label: "Finance", to: "/finance" },
 ]);
 
 export const Route = createRootRoute({
