@@ -7,8 +7,6 @@ export const Route = createFileRoute("/blogs")({
   loader: async () => {
     return await getBlogs();
   },
-  preloadStaleTime: 10_000,
-  staleTime: 10_000,
 });
 
 function RouteComponent() {
