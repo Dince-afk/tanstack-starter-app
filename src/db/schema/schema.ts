@@ -14,38 +14,30 @@ const timestamps = {
     .$onUpdateFn(() => new Date()),
 };
 
-export const todosTable = pgTable("todos", {
+export const todosTable = pgTable("todo", {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
-  ...timestamps,
   title: text().notNull(),
   done: boolean().default(false).notNull(),
+  ...timestamps,
 });
 
-export const blogsTable = pgTable("blogs", {
+export const blogsTable = pgTable("blog", {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
-  ...timestamps,
   title: text().notNull(),
+  ...timestamps,
 });
 
-export const usersTable = pgTable("users", {
+export const authorsTable = pgTable("author", {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
-  ...timestamps,
-  firstName: text().notNull(),
-  lastName: text().notNull(),
-  email: text().notNull(),
-});
-
-export const authorsTable = pgTable("authors", {
-  id: integer().primaryKey().generatedAlwaysAsIdentity(),
-  ...timestamps,
   name: text().notNull(),
+  ...timestamps,
 });
 
-export const booksTable = pgTable("books", {
+export const booksTable = pgTable("book", {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
-  ...timestamps,
   authorId: integer()
     .notNull()
     .references(() => authorsTable.id),
   title: text().notNull(),
+  ...timestamps,
 });

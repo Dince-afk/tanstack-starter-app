@@ -11,11 +11,13 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TodosRouteImport } from './routes/todos'
 import { Route as QuoteRouteImport } from './routes/quote'
+import { Route as LoginRouteImport } from './routes/login'
 import { Route as FinanceRouteImport } from './routes/finance'
 import { Route as ErrorRouteImport } from './routes/error'
 import { Route as BlogsRouteImport } from './routes/blogs'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
 
 const TodosRoute = TodosRouteImport.update({
   id: '/todos',
@@ -25,6 +27,11 @@ const TodosRoute = TodosRouteImport.update({
 const QuoteRoute = QuoteRouteImport.update({
   id: '/quote',
   path: '/quote',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FinanceRoute = FinanceRouteImport.update({
@@ -52,6 +59,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
+  id: '/api/auth/$',
+  path: '/api/auth/$',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -59,8 +71,10 @@ export interface FileRoutesByFullPath {
   '/blogs': typeof BlogsRoute
   '/error': typeof ErrorRoute
   '/finance': typeof FinanceRoute
+  '/login': typeof LoginRoute
   '/quote': typeof QuoteRoute
   '/todos': typeof TodosRoute
+  '/api/auth/$': typeof ApiAuthSplatRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -68,8 +82,10 @@ export interface FileRoutesByTo {
   '/blogs': typeof BlogsRoute
   '/error': typeof ErrorRoute
   '/finance': typeof FinanceRoute
+  '/login': typeof LoginRoute
   '/quote': typeof QuoteRoute
   '/todos': typeof TodosRoute
+  '/api/auth/$': typeof ApiAuthSplatRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -78,8 +94,10 @@ export interface FileRoutesById {
   '/blogs': typeof BlogsRoute
   '/error': typeof ErrorRoute
   '/finance': typeof FinanceRoute
+  '/login': typeof LoginRoute
   '/quote': typeof QuoteRoute
   '/todos': typeof TodosRoute
+  '/api/auth/$': typeof ApiAuthSplatRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -89,10 +107,21 @@ export interface FileRouteTypes {
     | '/blogs'
     | '/error'
     | '/finance'
+    | '/login'
     | '/quote'
     | '/todos'
+    | '/api/auth/$'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/blogs' | '/error' | '/finance' | '/quote' | '/todos'
+  to:
+    | '/'
+    | '/about'
+    | '/blogs'
+    | '/error'
+    | '/finance'
+    | '/login'
+    | '/quote'
+    | '/todos'
+    | '/api/auth/$'
   id:
     | '__root__'
     | '/'
@@ -100,8 +129,10 @@ export interface FileRouteTypes {
     | '/blogs'
     | '/error'
     | '/finance'
+    | '/login'
     | '/quote'
     | '/todos'
+    | '/api/auth/$'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -110,8 +141,10 @@ export interface RootRouteChildren {
   BlogsRoute: typeof BlogsRoute
   ErrorRoute: typeof ErrorRoute
   FinanceRoute: typeof FinanceRoute
+  LoginRoute: typeof LoginRoute
   QuoteRoute: typeof QuoteRoute
   TodosRoute: typeof TodosRoute
+  ApiAuthSplatRoute: typeof ApiAuthSplatRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -128,6 +161,13 @@ declare module '@tanstack/react-router' {
       path: '/quote'
       fullPath: '/quote'
       preLoaderRoute: typeof QuoteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/finance': {
@@ -165,6 +205,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/auth/$': {
+      id: '/api/auth/$'
+      path: '/api/auth/$'
+      fullPath: '/api/auth/$'
+      preLoaderRoute: typeof ApiAuthSplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -174,8 +221,10 @@ const rootRouteChildren: RootRouteChildren = {
   BlogsRoute: BlogsRoute,
   ErrorRoute: ErrorRoute,
   FinanceRoute: FinanceRoute,
+  LoginRoute: LoginRoute,
   QuoteRoute: QuoteRoute,
   TodosRoute: TodosRoute,
+  ApiAuthSplatRoute: ApiAuthSplatRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
