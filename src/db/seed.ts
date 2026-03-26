@@ -1,7 +1,7 @@
 import "dotenv/config";
-import { db } from "./db";
+import { db } from ".";
 import { reset, seed } from "drizzle-seed";
-import * as schema from "./schema/schema";
+import * as schema from "./schema";
 
 async function main() {
   //   const data = await db.select().from(todosTable);

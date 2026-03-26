@@ -9,12 +9,11 @@ import {
   getStoredTodos,
   updateTodo,
 } from "@/features/todos/storage";
-import { delay, RenderTimeStamp } from "@/lib/helper";
+import { RenderTimeStamp } from "@/lib/helper";
 
 export const Route = createFileRoute("/todos")({
   component: RouteComponent,
   loader: async () => {
-    console.log("Running todos loader function");
     // await delay(2000);
     return getStoredTodos();
   },

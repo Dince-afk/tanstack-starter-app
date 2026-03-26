@@ -1,5 +1,3 @@
-// import { db } from "@/db";
-// import { blogsTable } from "@/db/schema";
 import { getSession } from "@/lib/auth.functions";
 import { createFileRoute, redirect } from "@tanstack/react-router";
 
